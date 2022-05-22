@@ -1,0 +1,133 @@
+/* Demystify CSS. */
+
+body {
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:  #222;
+  max-width: 800px;
+  margin: auto;
+  margin-top:  2%;
+}
+
+h1.title {
+	font-size: 1.8em;
+	letter-spacing: -.05rem;
+	font-weight: bold;
+	margin: 0 0 0 0;
+}
+
+h2.subtitle {
+	font-size: 1.1em;
+	letter-spacing: 0;
+	margin:  0 0 0 0;
+	font-weight: normal;
+}
+
+label.left-label {
+	padding-top: 10%;
+}
+
+input.signature {
+	text-transform: uppercase;
+}
+
+#About > p {
+    font-style: italic;
+}
+
+a:link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #222;
+}
+
+a:visited {
+  text-decoration: none;
+  font-weight: bold;
+  color: #222;
+}
+
+a:hover {
+  text-decoration: underline;
+  font-weight: bold;
+  color: #222;
+}
+
+a:active {
+  text-decoration: underline;
+  font-weight: bold;
+  color: #222;
+}
+
+i.mono {
+	font-family: monospace;
+}
+
+img.logo {
+	height: 50px;
+	width:  50px;
+	text-align: left;
+	vertical-align: middle;
+}
+
+span.logo {
+	color: #bebc00;
+	font-weight: bold;
+	margin-left: 5px;
+}
+
+.row {
+	margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.half-column {
+	margin-top: -5px;
+	font-size:  3rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: .14;
+}
+
+.content {
+	margin-top: 5%;
+}
+
+div.drag {
+	color-scheme: dark !important;
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    line-height: 1.5;
+    word-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    border: 2px dashed #bbb;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    border-color: rgb(84, 91, 95);
+    color: rgb(36, 29, 19);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label.custom-file-upload {
+	background-color: rgb(240, 240, 240);
+    border: 1px solid #ccc;
+    border-radius:  3px;
+    padding: 10px 25px 10px 25px;
+    display: inline-block;
+    cursor: pointer;
+}

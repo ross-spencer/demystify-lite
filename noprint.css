@@ -1,0 +1,5 @@
+/* CSS so we can control what is printed from Demystify-lite. */
+@media print
+{
+.noprint {display:none;}
+}
