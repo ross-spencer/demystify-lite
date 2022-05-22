@@ -1,11 +1,13 @@
 /* Demystify CSS. */
 
 body {
-	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color:  #222;
   max-width: 800px;
   margin: auto;
   margin-top:  2%;
+  font-family: Raleway, HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 h1.title {
@@ -141,4 +143,16 @@ label.custom-file-upload:hover {
   border-width: 2px;
   border-color: black;
   padding: 9px 24px 9px 24px;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+code {
+  font-family: monospace;
+  font-weight: 100;
+  font-size: 13px;
 }
