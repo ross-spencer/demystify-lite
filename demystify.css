@@ -1,10 +1,58 @@
-/* Demystify CSS. */
+/* Demystify CSS.
 
-body {
-	color:  #222;
+   NB. I am not so great with CSS, any help you can offer to refactor
+   this and make it actually responsive would be greatly appreciated.
+*/
+
+div.banner {
+  width: 100%;
+  background-color: #008383;
+  color: white;
+  text-align: center;
+  font-size: 1em;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 25px;
+  padding: 10px;
+}
+
+a.banner_link {
+  background-color: #008383;
+  color: white;
+}
+
+a.banner_link:link {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+a.banner_link:visited {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+a.banner_link:hover {
+  text-decoration: underline;
+  font-weight: bold;
+  color: white;
+}
+
+a.banner_link:active {
+  text-decoration: underline;
+  font-weight: bold;
+  color: white;
+}
+
+main {
+  position: relative;
   max-width: 800px;
+  color:  #222;
   margin: auto;
-  margin-top:  2%;
+  margin-top:  4.5%;
   font-family: Raleway, HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
