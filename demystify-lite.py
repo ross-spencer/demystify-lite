@@ -46,15 +46,24 @@ async def file_select(event):
         document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
         document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
         if file.type:
-            document.getElementById("filetype").innerHTML = f"<b>File Type:</b> {file.type}"
-        document.getElementById("filedate").innerHTML = f"<b>File date:</b> {file.lastModifiedDate}"
+            document.getElementById(
+                "filetype"
+            ).innerHTML = f"<b>File Type:</b> {file.type}"
+        document.getElementById(
+            "filedate"
+        ).innerHTML = f"<b>File date:</b> {file.lastModifiedDate}"
         content = await file.text()
 
         a = tempfile.NamedTemporaryFile("w", encoding="UTF8")
         a.write(content)
 
         analysis = analysis_from_csv(a.name, True, label=file.name)
-        out = handle_output(analysis.analysis_results)
+        try:
+            out = handle_output(analysis.analysis_results)
+        except AttributeError:
+            # TODO: Consider a more idiomatic approach. We'll supply a
+            # string to the function if analysis_results do not exist.
+            out = f"<b>{analysis}</b> Press F12 on your keyboard to open developer tools, then select the console tab to view additional debug output."
 
         document.getElementById("results").innerHTML = out
 
