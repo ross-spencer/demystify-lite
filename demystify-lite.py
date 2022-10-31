@@ -7,8 +7,8 @@ file-system. The file is processed and the results returned to the page.
 
 import tempfile
 
-from js import Object, document, window
-from pyodide import create_proxy, to_js
+from js import document
+from pyodide import create_proxy
 
 from demystify.demystify import analysis_from_csv, handle_output
 
@@ -32,17 +32,9 @@ async def file_select(event):
     event.stopPropagation()
     event.preventDefault()
 
-    try:
-        options = {"multiple": False, "startIn": "documents"}
-        fileHandles = await window.showOpenFilePicker(
-            Object.fromEntries(to_js(options))
-        )
-    except Exception as err:
-        console.log(f"Exception: {err}")
-        return
+    files = event.target.files
 
-    for fileHandle in fileHandles:
-        file = await fileHandle.getFile()
+    for file in files:
         document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
         document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
         if file.type:
@@ -51,7 +43,7 @@ async def file_select(event):
             ).innerHTML = f"<b>File Type:</b> {file.type}"
         document.getElementById(
             "filedate"
-        ).innerHTML = f"<b>File date:</b> {file.lastModifiedDate}"
+        ).innerHTML = f"<b>File date:</b> {file.lastModified}"
         content = await file.text()
 
         a = tempfile.NamedTemporaryFile("w", encoding="UTF8")
@@ -71,8 +63,8 @@ async def file_select(event):
 def setup_button():
     """Create a Python proxy for the callback function."""
     file_select_proxy = create_proxy(file_select)
-    document.getElementById("file_select").addEventListener(
-        "click", file_select_proxy, False
+    document.querySelector("#file_select input[type='file']").addEventListener(
+        "change", file_select_proxy, False
     )
 
 
