@@ -8,9 +8,10 @@ file-system. The file is processed and the results returned to the page.
 import tempfile
 
 from js import Object, document, window
-from pyodide import create_proxy, to_js
+from pyodide.ffi import create_proxy, to_js
 
-from demystify.demystify import analysis_from_csv, handle_output
+from demystify.demystify import analysis_from_csv
+from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
 
 
 def clear_data():
@@ -54,18 +55,18 @@ async def file_select(event):
         ).innerHTML = f"<b>File date:</b> {file.lastModifiedDate}"
         content = await file.text()
 
-        a = tempfile.NamedTemporaryFile("w", encoding="UTF8")
-        a.write(content)
+        with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
+            temp_file.write(content)
 
-        analysis = analysis_from_csv(a.name, True, label=file.name)
-        try:
-            out = handle_output(analysis.analysis_results)
-        except AttributeError:
-            # TODO: Consider a more idiomatic approach. We'll supply a
-            # string to the function if analysis_results do not exist.
-            out = f"<b>{analysis}</b> Press F12 on your keyboard to open developer tools, then select the console tab to view additional debug output."
+            analysis = analysis_from_csv(temp_file.name, analyze=True)
+            try:
+                out = FormatAnalysisHTMLOutput(analysis.analysis_results).printHTMLResults()
+            except AttributeError:
+                # TODO: Consider a more idiomatic approach. We'll supply a
+                # string to the function if analysis_results do not exist.
+                out = f"<b>{analysis}</b> Press F12 on your keyboard to open developer tools, then select the console tab to view additional debug output."
 
-        document.getElementById("results").innerHTML = out
+            document.getElementById("results").innerHTML = out
 
 
 def setup_button():

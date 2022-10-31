@@ -27,17 +27,17 @@ Ross
       <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
       <meta name="rating" content="Utilities"/>
       <!-- Pyscript front-matter -->
-      <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-      <py-env>
-         - './demystify_digipres-2.0.0rc3_demystify_lite-py2.py3-none-any.whl'
-      </py-env>
+      <script defer src="https://pyscript.net/releases/2022.09.1/pyscript.js"></script>
       <!-- Custom imports -->
       <link rel="stylesheet" href="./demystify.css">
       <link rel="stylesheet" href="./noprint.css" />
       <!-- Favicon -->
-      <link rel="icon" type="image/png" href="favicon.png" />
+      <link rel="icon" type="image/png" href="favicon.ico" />
    </head>
    <body>
+      <py-config>
+         packages = ["demystify-digipres==2.0.0rc3"]
+      </py-config>
       <!-- <py-repl id="my-repl" auto-generate="true"></py-repl> -->
       <py-script src="./demystify-lite.py"></py-script>
       <section class="noprint">
