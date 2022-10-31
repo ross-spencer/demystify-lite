@@ -40,15 +40,7 @@ Ross
       </py-config>
       <!-- <py-repl id="my-repl" auto-generate="true"></py-repl> -->
       <py-script src="./demystify-lite.py"></py-script>
-      <section class="noprint">
-         <div class="banner">
-            <b>Please note</b>, this application will not work in Firefox as
-            Mozilla have limited support for
-            <a class="banner_link"
-               href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker#browser_compatibility"
-               target="_blank">the File API</a>
-         </div>
-      </section>
+      <!-- <py-repl id="my-repl" auto-generate="true"></py-repl> -->
       <main>
          <section class="noprint">
             <div>
@@ -81,9 +73,8 @@ Ross
                   shared with a server and so it can be safely used on data without
                   revealing your secrets to the world. This implementation is
                   enabled by
-                  <a href="https://pyscript.net/" target="_blank">pyscript</a>.
+                  <a href="https://pyscript.net/" target="_blank" rel="noopener">pyscript</a>.
                </p>
-               <p>
                <p>
                   More information:
                <ul>
@@ -97,13 +88,12 @@ Ross
                </p>
             </div>
             <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
-            </div>
          </section>
          <section class="noprint">
             <div class="drag" id="drop_zone">
                <div id="file_select">
                   <label class="custom-file-upload">
-                     <input type="file" name="files[]" single disabled />
+                     <input type="file" name="files[]" />
                   Select a file-format-report from your computer
                   </label>
                </div>
