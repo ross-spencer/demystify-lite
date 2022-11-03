@@ -58,9 +58,11 @@ async def file_select(event):
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
 
-            analysis = analysis_from_csv(temp_file.name, analyze=True)
+            analysis = analysis_from_csv(temp_file.name, analyze=True, label=file.name)
             try:
-                out = FormatAnalysisHTMLOutput(analysis.analysis_results).printHTMLResults()
+                out = FormatAnalysisHTMLOutput(
+                    analysis.analysis_results
+                ).printHTMLResults()
             except AttributeError:
                 # TODO: Consider a more idiomatic approach. We'll supply a
                 # string to the function if analysis_results do not exist.
