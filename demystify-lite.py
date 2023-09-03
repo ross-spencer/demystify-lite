@@ -10,7 +10,7 @@ import tempfile
 from js import document
 from pyodide.ffi import create_proxy, to_js
 
-from demystify.demystify import analysis_from_csv
+from demystify.demystify import analysis_from_csv_lite
 from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
 
 
@@ -50,7 +50,7 @@ async def file_select(event):
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
 
-            analysis = analysis_from_csv(temp_file.name, analyze=True, label=file.name)
+            analysis = analysis_from_csv_lite(temp_file.name, analyze=True, label=file.name)
             try:
                 out = FormatAnalysisHTMLOutput(
                     analysis.analysis_results
