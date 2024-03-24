@@ -26,8 +26,12 @@ Ross
       <meta name="description" content="File-format report static analysis tool, client-side, online"/>
       <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
       <meta name="rating" content="Utilities"/>
-      <!-- Pyscript front-matter -->
-      <script defer src="https://pyscript.net/releases/2022.09.1/pyscript.js"></script>
+
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.3.1/core.css"/>
+      <script type="module" src="https://pyscript.net/releases/2024.3.1/core.js">
+        // do not delete...
+      </script>
+
       <!-- Custom imports -->
       <link rel="stylesheet" href="./demystify.css">
       <link rel="stylesheet" href="./noprint.css" />
@@ -35,9 +39,7 @@ Ross
       <link rel="icon" type="image/png" href="favicon.ico" />
    </head>
    <body>
-      <py-config>
-         packages = ["./demystify_digipres-2.0.0rc4-py3-none-any.whl"]
-      </py-config>
+      <py-config src="./pyscript.toml"></py-config>
       <!-- <py-repl id="my-repl" auto-generate="true"></py-repl> -->
       <py-script src="./demystify-lite.py"></py-script>
       <!-- <py-repl id="my-repl" auto-generate="true"></py-repl> -->
@@ -61,6 +63,7 @@ Ross
                </div>
             </div>
          </section>
+
          <section class="noprint content">
             <div >
                <p>Demystify is a static-analysis tool for digital preservation.</p>
@@ -91,8 +94,8 @@ Ross
          <section class="noprint">
             <div class="drag" id="drop_zone">
                <div id="file_select">
-                  <label class="custom-file-upload">
-                     <input type="file" name="files[]" />
+                  <label class="custom-file-uploadx">
+                     <input type="file" name="files[]" id="files" />
                   Select a file-format-report from your computer
                   </label>
                </div>

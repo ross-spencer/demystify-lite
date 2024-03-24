@@ -204,3 +204,7 @@ code {
   font-weight: 100;
   font-size: 13px;
 }
+
+div.py-error {
+    display: none;
+}

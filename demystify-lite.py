@@ -8,7 +8,7 @@ file-system. The file is processed and the results returned to the page.
 import tempfile
 
 from js import document
-from pyodide.ffi import create_proxy, to_js
+from pyodide.ffi import create_proxy
 
 from demystify.demystify import analysis_from_csv_lite
 from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
@@ -39,26 +39,31 @@ async def file_select(event):
         document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
         document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
         if file.type:
-            document.getElementById(
-                "filetype"
-            ).innerHTML = f"<b>File Type:</b> {file.type}"
-        document.getElementById(
-            "filedate"
-        ).innerHTML = f"<b>File date:</b> {file.lastModified}"
+            document.getElementById("filetype").innerHTML = (
+                f"<b>File Type:</b> {file.type}"
+            )
+        document.getElementById("filedate").innerHTML = (
+            f"<b>File date:</b> {file.lastModified}"
+        )
         content = await file.text()
 
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
-
-            analysis = analysis_from_csv_lite(temp_file.name, analyze=True, label=file.name)
+            analysis = analysis_from_csv_lite(
+                temp_file.name, analyze=True, label=file.name, denylist={}
+            )
+            out = ""
             try:
                 out = FormatAnalysisHTMLOutput(
                     analysis.analysis_results
                 ).printHTMLResults()
             except AttributeError:
-                # TODO: Consider a more idiomatic approach. We'll supply a
-                # string to the function if analysis_results do not exist.
-                out = f"<b>{analysis}</b> Press F12 on your keyboard to open developer tools, then select the console tab to view additional debug output."
+                out = (
+                    f"<b>{analysis}</b>"
+                    "Error processing content. Press F12 on your keyboard to open"
+                    "developer tools, then select the console tab to view"
+                    "additional debug output."
+                )
 
             document.getElementById("results").innerHTML = out
 
@@ -67,8 +72,11 @@ def setup_button():
     """Create a Python proxy for the callback function."""
     file_select_proxy = create_proxy(file_select)
     document.querySelector("#file_select input[type='file']").addEventListener(
-        "change", file_select_proxy, False
+        "change",
+        file_select_proxy,
+        False,
     )
 
 
-setup_button()
+if __name__ == "__main__":
+    setup_button()

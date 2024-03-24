@@ -1,0 +1,6 @@
+packages = [
+    "demystify-digipres",
+    "sqlite3",
+]
+
+[files]
