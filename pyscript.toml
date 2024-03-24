@@ -1,0 +1,7 @@
+packages = [
+    "./demystify_digipres-2.0.0rc5.dev4+gc80d5f2.d20240225-py3-none-any.whl",
+    "sqlite3",
+]
+
+[files]
+"ross.txt" = "./ross.txt"
