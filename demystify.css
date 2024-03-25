@@ -205,6 +205,14 @@ code {
   font-size: 13px;
 }
 
+textarea.denylist {
+    width: 99%;
+}
+
+#denylistTextBox {
+    padding-bottom: 5px;
+}
+
 div.py-error {
     display: none;
 }
