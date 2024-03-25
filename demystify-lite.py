@@ -5,10 +5,11 @@ page with a File handle to a file-format analysis report on their own
 file-system. The file is processed and the results returned to the page.
 """
 
+import json
 import tempfile
 
-from js import document
-from pyodide.ffi import create_proxy, to_js
+from js import document, console, window
+from pyodide.ffi import create_proxy
 
 from demystify.demystify import analysis_from_csv_lite
 from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
@@ -25,13 +26,47 @@ def clear_data():
     document.getElementById("results").innerHTML = ""
 
 
+async def deny_list(event):
+    """Handle file select and follow-on actions from HTML/Pyscript."""
+    use_deny_list = document.getElementById("use_deny_list").checked
+    if not use_deny_list:
+        document.getElementById("denylistTextBox").style.display = "none"
+        return
+
+    document.getElementById("denylistTextBox").style.display = ""
+
+    content = document.getElementById("denylist").value
+    if content.strip() == "":
+        with open("default_denylist.cfg", encoding="utf-8") as default_deny_list:
+            content = default_deny_list.read()
+            deny_list_json = json.dumps(json.loads(content), indent=2)
+            document.getElementById("denylist").value = deny_list_json
+
+
 async def file_select(event):
     """Handle file select and follow-on actions from HTML/Pyscript."""
 
     clear_data()
-
     event.stopPropagation()
     event.preventDefault()
+
+    deny_list = "{}"
+    use_deny_list = document.getElementById("use_deny_list").checked
+    if use_deny_list:
+        deny_list = document.getElementById("denylist").value
+
+    try:
+        deny_list = json.loads(deny_list)
+    except json.decoder.JSONDecodeError as err:
+        console.log(f"denylist error: {err}")
+        document.getElementById("results").innerHTML = (
+            "<br/>"
+            "<h1>Processing Error</h1>"
+            "deny list JSON is invalid, please check, e.g. via "
+            "<a href='https://jsonlint.com/' target='_blank', rel='noopener'>JSONLint.com</a>"
+            "<br/>"
+        )
+        return
 
     files = event.target.files
 
@@ -49,16 +84,23 @@ async def file_select(event):
 
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
-
-            analysis = analysis_from_csv_lite(temp_file.name, analyze=True, label=file.name)
+            analysis = analysis_from_csv_lite(
+                temp_file.name,
+                label=file.name,
+                denylist=deny_list,
+            )
+            out = ""
             try:
                 out = FormatAnalysisHTMLOutput(
                     analysis.analysis_results
                 ).printHTMLResults()
             except AttributeError:
-                # TODO: Consider a more idiomatic approach. We'll supply a
-                # string to the function if analysis_results do not exist.
-                out = f"<b>{analysis}</b> Press F12 on your keyboard to open developer tools, then select the console tab to view additional debug output."
+                out = (
+                    f"<b>{analysis}</b>"
+                    "Error processing content. Press F12 on your keyboard to open"
+                    "developer tools, then select the console tab to view"
+                    "additional debug output."
+                )
 
             document.getElementById("results").innerHTML = out
 
@@ -67,8 +109,16 @@ def setup_button():
     """Create a Python proxy for the callback function."""
     file_select_proxy = create_proxy(file_select)
     document.querySelector("#file_select input[type='file']").addEventListener(
-        "change", file_select_proxy, False
+        "change",
+        file_select_proxy,
+        False,
+    )
+    deny_list_proxy = create_proxy(deny_list)
+    document.querySelector("#deny_list input[type='checkbox']").addEventListener(
+        "change",
+        deny_list_proxy,
     )
 
 
-setup_button()
+if __name__ == "__main__":
+    setup_button()
