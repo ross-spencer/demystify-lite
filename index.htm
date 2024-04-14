@@ -93,8 +93,17 @@ Ross
                </ul>
                </p>
             </div>
-            <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
-         </section>
+        </section>
+        <section class="noprint">
+            <hr/>
+            <div>
+                <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
+            </div>
+            <div class="deny-list" id="deny_list">
+                use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
+                <br/><br/>
+            </div>
+        </section>
          <section class="noprint" id="denylistTextBox" style="display: none;">
             <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
          </section>
@@ -106,14 +115,6 @@ Ross
                   Select a file-format-report from your computer
                   </label>
                </div>
-            </div>
-         </section>
-         <section>
-            <div class="noprint">
-                <div id="deny_list">
-                    <br/>
-                    use denylist: <input type="checkbox" id="use_deny_list" />
-                </div>
             </div>
          </section>
          <section class="noprint">
