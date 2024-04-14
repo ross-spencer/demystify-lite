@@ -216,3 +216,7 @@ textarea.denylist {
 div.py-error {
     display: none;
 }
+
+img.header {
+    width: 100%;
+}
