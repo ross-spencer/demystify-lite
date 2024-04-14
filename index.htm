@@ -1,136 +1,133 @@
 <!-- Demystify-lite pyscript implementation of Demystify.
-
    Many thanks to John Hanley for their file-system guides:
 
       - https://www.jhanley.com/pyscript-files-and-file-systems-part-2/
 
-This code is licensed GPLv3.0. It is free for you to hack on and remix.
-If you find a better way to do anything I am doing in this code, please,
-take the opportunity to share if you feel so inclined.
+   This code is licensed GPLv3.0. It is free for you to hack on and remix.
+   If you find a better way to do anything I am doing in this code, please,
+   take the opportunity to share if you feel so inclined.
 
-Thank you for trying this out!
-Enjoy! 🔮
-Ross
+   Thank you for trying this out!
+   Enjoy! 🔮
+   Ross
 
--->
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <!-- Site metadata -->
-      <title>Demystify online! #digipres</title>
-      <meta name="title" content="Demystify online - Demystify Lite - Digital Preservation" />
-      <meta name="author" content="Ross Spencer"/>
-      <meta name="description" content="File-format report static analysis tool, client-side, online"/>
-      <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
-      <meta name="rating" content="Utilities"/>
-
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.3.1/core.css"/>
-      <script type="module" src="https://pyscript.net/releases/2024.3.1/core.js">
-        // do not delete...
-      </script>
-
-      <!-- Custom imports -->
-      <link rel="stylesheet" href="./demystify.css">
-      <link rel="stylesheet" href="./noprint.css" />
-      <!-- Favicon -->
-      <link rel="icon" type="image/png" href="customize/favicon.ico" />
-   </head>
-   <body>
-      <py-config src="./pyscript.toml"></py-config>
-      <py-script src="./demystify-lite.py"></py-script>
-      <main>
-         <section class="noprint">
-            <div class="row">
-                <div>
-                    <img class="header" src="customize/header.png" alt="demystify-lite header"/>
-                    <br/>
-                    <br/>
-                </div>
-            </div>
-            <div>
-               <div class='row'>
-                  <div class='column half-column'>
-                     <div>
-                        <img class="logo" src="demystify.ico" alt="demystify logo"><span class="logo">||</span>
-                     </div>
+   -->
+   <!DOCTYPE html>
+   <html lang="en">
+      <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+         <!-- Site metadata -->
+         <title>Demystify online! #digipres</title>
+         <meta name="title" content="Demystify online - Demystify Lite - Digital Preservation" />
+         <meta name="author" content="Ross Spencer"/>
+         <meta name="description" content="File-format report static analysis tool, client-side, online"/>
+         <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
+         <meta name="rating" content="Utilities"/>
+         <link rel="stylesheet" href="https://pyscript.net/releases/2024.3.1/core.css"/>
+         <script type="module" src="https://pyscript.net/releases/2024.3.1/core.js">
+            // do not delete...
+         </script>
+         <!-- Custom imports -->
+         <link rel="stylesheet" href="./demystify.css">
+         <link rel="stylesheet" href="./noprint.css" />
+         <!-- Favicon -->
+         <link rel="icon" type="image/png" href="customize/favicon.ico" />
+      </head>
+      <body>
+         <py-config src="./pyscript.toml"></py-config>
+         <py-script src="./demystify-lite.py"></py-script>
+         <main>
+            <section class="noprint">
+               <div class="row">
+                  <div>
+                     <img class="header" src="customize/header.png" alt="demystify-lite header"/>
+                     <br/>
+                     <br/>
                   </div>
-                  <div class='column'>
-                     <div>
-                        <h1 class="title">Demystify Lite</h1>
+               </div>
+               <div>
+                  <div class='row'>
+                     <div class='column half-column'>
+                        <div>
+                           <img class="logo" src="demystify.ico" alt="demystify logo"><span class="logo">||</span>
+                        </div>
                      </div>
-                     <div>
-                        <h2 class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
+                     <div class='column'>
+                        <div>
+                           <h1 class="title">Demystify Lite</h1>
+                        </div>
+                        <div>
+                           <h2 class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
-         </section>
-         <section class="noprint content">
-            <div >
-               <p>Demystify is a static-analysis tool for digital preservation.</p>
-               <p>
-                  You can take a CSV report from DROID, or Siegfried YAML, run
-                  it through this tool, and understand your collection better.
-               </p>
-               <p>
-                  Demystify-lite processes everything on client-side, data isn't
-                  shared with a server and so it can be safely used on data without
-                  revealing your secrets to the world. This implementation is
-                  enabled by
-                  <a href="https://pyscript.net/" target="_blank" rel="noopener">pyscript</a>.
-               </p>
-               <p>
-                  More information:
-               <ul>
-                <li>Demystify full-fat on <a href="https://github.com/exponential-decay/demystify" target="_blank" rel="noopener">Github</a>.</li>
-                <li>Understanding file-format identification reports on <a href="https://journal.code4lib.org/articles/16351" target="_blank" rel="noopener">Code4Lib</a>.</li>
-                <li>Siegfried on <a href="https://github.com/richardlehane/siegfried" target="_blank" rel="noopener">GitHub</a>.</li>
-                <li>DROID at <a href="https://www.nationalarchives.gov.uk/information-management/manage-information/preserving-digital-records/droid/" target="_blank" rel="noopener">The National Archives, UK</a>.</li>
-                <li>Demystify Lite repository and <a href="https://github.com/ross-spencer/demystify-lite/issues" target="_blank" rel="noopener">issues</a>.</li>
-               </ul>
-               </p>
-            </div>
-        </section>
-        <section class="noprint">
-            <hr/>
-            <div>
-                <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
-            </div>
-            <div class="deny-list" id="deny_list">
-                use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
-                <br/><br/>
-            </div>
-        </section>
-         <section class="noprint" id="denylistTextBox" style="display: none;">
-            <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
-         </section>
-         <section class="noprint">
-            <div class="drag" id="drop_zone">
-               <div id="file_select">
-                  <label class="custom-file-uploadx">
+            </section>
+            <section class="noprint content">
+               <div >
+                  <p>Demystify is a static-analysis tool for digital preservation.</p>
+                  <p>
+                     You can take a CSV report from DROID, or Siegfried YAML, run
+                     it through this tool, and understand your collection better.
+                  </p>
+                  <p>
+                     Demystify-lite processes everything on client-side, data isn't
+                     shared with a server and so it can be safely used on data without
+                     revealing your secrets to the world. This implementation is
+                     enabled by
+                     <a href="https://pyscript.net/" target="_blank" rel="noopener">pyscript</a>.
+                  </p>
+                  <p>
+                     More information:
+                  <ul>
+                     <li>Demystify full-fat on <a href="https://github.com/exponential-decay/demystify" target="_blank" rel="noopener">Github</a>.</li>
+                     <li>Understanding file-format identification reports on <a href="https://journal.code4lib.org/articles/16351" target="_blank" rel="noopener">Code4Lib</a>.</li>
+                     <li>Siegfried on <a href="https://github.com/richardlehane/siegfried" target="_blank" rel="noopener">GitHub</a>.</li>
+                     <li>DROID at <a href="https://www.nationalarchives.gov.uk/information-management/manage-information/preserving-digital-records/droid/" target="_blank" rel="noopener">The National Archives, UK</a>.</li>
+                     <li>Demystify Lite repository and <a href="https://github.com/ross-spencer/demystify-lite/issues" target="_blank" rel="noopener">issues</a>.</li>
+                  </ul>
+                  </p>
+               </div>
+            </section>
+            <section class="noprint">
+               <hr/>
+               <div>
+                  <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
+               </div>
+               <div class="deny-list" id="deny_list">
+                  use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
+                  <br/><br/>
+               </div>
+            </section>
+            <section class="noprint" id="denylistTextBox" style="display: none;">
+               <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
+            </section>
+            <section class="noprint">
+               <div class="drag" id="drop_zone">
+                  <div id="file_select">
+                     <label class="custom-file-uploadx">
                      <input type="file" name="files[]" id="files" />
-                  Select a file-format-report from your computer
-                  </label>
+                     Select a file-format-report from your computer
+                     </label>
+                  </div>
                </div>
-            </div>
-         </section>
-         <section class="noprint">
-            <div class="noprint">
-               <br />
-               <br />
-               <div id="filename"></div>
-               <div id="filesize"></div>
-               <div id="filetype"></div>
-               <div id="filedate"></div>
-               <br/>
-            </div>
-         </section>
-         <section>
-            <div id="results"></div>
-         </section>
-      </main>
-   </body>
-</html>
+            </section>
+            <section class="noprint">
+               <div class="noprint">
+                  <br />
+                  <br />
+                  <div id="filename"></div>
+                  <div id="filesize"></div>
+                  <div id="filetype"></div>
+                  <div id="filedate"></div>
+                  <br/>
+               </div>
+            </section>
+            <section>
+               <div id="results"></div>
+            </section>
+         </main>
+      </body>
+   </html>
