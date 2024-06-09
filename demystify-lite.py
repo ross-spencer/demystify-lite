@@ -15,6 +15,9 @@ from demystify.demystify import analysis_from_csv_lite
 from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
 
 
+from pyscript import when, display
+
+
 def clear_data():
     """Clear the metadata fields associated with the file input and
     output.
@@ -43,12 +46,25 @@ async def deny_list(event):
             document.getElementById("denylist").value = deny_list_json
 
 
-async def file_select(event):
+
+
+@when("click", "#my_button")
+async def click_handler(event):
+    """
+    Event handlers get an event object representing the activity that raised
+    them.
+
+    https://github.com/exponential-decay
+    """
+    await file_select()
+
+
+async def file_select():
     """Handle file select and follow-on actions from HTML/Pyscript."""
 
     clear_data()
-    event.stopPropagation()
-    event.preventDefault()
+    #event.stopPropagation()
+    #event.preventDefault()
 
     deny_list = "{}"
     use_deny_list = document.getElementById("use_deny_list").checked
@@ -68,51 +84,76 @@ async def file_select(event):
         )
         return
 
-    files = event.target.files
+    results = document.getElementById("sf-results");
 
-    for file in files:
-        document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
-        document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
-        if file.type:
-            document.getElementById(
-                "filetype"
-            ).innerHTML = f"<b>File Type:</b> {file.type}"
-        document.getElementById(
-            "filedate"
-        ).innerHTML = f"<b>File date:</b> {file.lastModified}"
-        content = await file.text()
+    content = results.innerHTML;
+    content = content.strip()
 
-        with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
-            temp_file.write(content)
-            analysis = analysis_from_csv_lite(
-                temp_file.name,
-                label=file.name,
-                denylist=deny_list,
-            )
-            out = ""
-            try:
-                out = FormatAnalysisHTMLOutput(
-                    analysis.analysis_results
-                ).printHTMLResults()
-            except AttributeError:
-                out = (
-                    f"<b>{analysis}</b>"
-                    "Error processing content. Press F12 on your keyboard to open"
-                    "developer tools, then select the console tab to view"
-                    "additional debug output."
-                )
+    console.log(content.startswith("---"))
+    #console.log(content)
 
-            document.getElementById("results").innerHTML = out
+    import binascii
+    b = content[:25]
+    a = binascii.hexlify(b.encode())
+    #console.log(f"{a}")
+
+    c = b"2d2d2d0a7369656766726965642020203a"
+    console.log(c in a)
+
+    console.log(f"{a}")
+    console.log(f"{c}")
+
+    if not content:
+        console.log("you need to click the button")
+        return
+
+    #with open("test.sf", "w", encoding="utf-8") as test_sf:
+    #    test_sf.write(report)
+
+
+    #console.log(content.strip())
+    #return
+
+    #document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
+    #document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
+    #if file.type:
+    #    document.getElementById(
+    #        "filetype"
+    #    ).innerHTML = f"<b>File Type:</b> {file.type}"
+    #document.getElementById(
+    #    "filedate"
+    #).innerHTML = f"<b>File date:</b> {file.lastModified}"
+    #content = await file.text()
+
+    with tempfile.NamedTemporaryFile("w", encoding="UTF8", delete=False) as temp_file:
+        temp_file.write(content)
+
+    with open(temp_file.name, "r", encoding="utf8") as test:
+        console.log(test.read())
+
+    analysis = analysis_from_csv_lite(
+        temp_file.name,
+        label="SFWASM",
+        denylist=deny_list,
+    )
+    out = ""
+    try:
+        out = FormatAnalysisHTMLOutput(
+            analysis.analysis_results
+        ).printHTMLResults()
+    except AttributeError:
+        out = (
+            f"<b>{analysis}</b>"
+            "Error processing content. Press F12 on your keyboard to open"
+            "developer tools, then select the console tab to view"
+            "additional debug output."
+        )
+
+    document.getElementById("results").innerHTML = out
 
 
 def setup_button():
     """Create a Python proxy for the callback function."""
-    file_select_proxy = create_proxy(file_select)
-    document.querySelector("#file_select input[type='file']").addEventListener(
-        "change",
-        file_select_proxy,
-        False,
-    )
     deny_list_proxy = create_proxy(deny_list)
     document.querySelector("#deny_list input[type='checkbox']").addEventListener(
         "change",

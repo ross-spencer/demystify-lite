@@ -1,6 +1,7 @@
 packages = [
-    "demystify-digipres",
+    #"demystify-digipres",
     "sqlite3",
+    "demystify_digipres-2.0.1.dev0+g8433426.d20240609-py3-none-any.whl"
 ]
 
 [files]

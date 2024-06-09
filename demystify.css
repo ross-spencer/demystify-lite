@@ -174,7 +174,7 @@ input[type="file"] {
 }
 
 label.custom-file-upload {
-	background-color: rgb(240, 240, 240);
+  background-color: rgb(240, 240, 240);
   border: 1px solid #ccc;
   border-radius:  3px;
   padding: 10px 25px 10px 25px;
@@ -219,16 +219,6 @@ div.py-error {
 
 img.header {
     width: 100%;
-}
-
-xsection.user-input {
-    font-size: 1.2em;
-    font-style: italic;
-}
-
-xinput.use-denylist {
-    height: 20px;
-    width: 20px;
 }
 
 div.deny-list {

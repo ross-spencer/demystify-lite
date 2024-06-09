@@ -34,6 +34,22 @@
          <link rel="stylesheet" href="./noprint.css" />
          <!-- Favicon -->
          <link rel="icon" type="image/png" href="customize/favicon.ico" />
+         <!-- Siegfried Integration -->
+         <script src="sf/test.js" defer></script>
+         <script src="sf/wasm_exec.js"></script>
+         <script>
+             const go = new window.Go();
+
+             WebAssembly.instantiateStreaming(
+                 fetch("sf.wasm"),
+                 go.importObject
+             ).then(
+                 (obj) => {
+                     go.run(obj.instance);
+                 }
+             );
+         </script>
+         <!-- Siegfried Integration -->
       </head>
       <body>
          <py-config src="./pyscript.toml"></py-config>
@@ -91,6 +107,16 @@
                   </p>
                </div>
             </section>
+
+            <button id="butOpen" type="button">
+                Siegfried: Open file
+            </button>
+
+            <div id="sf-results" hidden>
+
+            </div>
+
+
             <section class="noprint">
                <hr/>
                <div>
@@ -104,16 +130,22 @@
             <section class="noprint" id="denylistTextBox" style="display: none;">
                <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
             </section>
+
+            <!-- SF integration -->
+            <!-- SF integration -->
+            <!-- SF integration -->
             <section class="noprint">
                <div class="drag" id="drop_zone">
-                  <div id="file_select">
-                     <label class="custom-file-uploadx">
-                     <input type="file" name="files[]" id="files" />
-                     Select a file-format-report from your computer
+                     <label class="custom-file-upload">
+                     <input type="button" id="my_button" />
+                     ### RUN DEMYSTIFY ###
                      </label>
-                  </div>
                </div>
             </section>
+            <!-- SF integration-->
+            <!-- SF integration-->
+            <!-- SF integration-->
+
             <section class="noprint">
                <div class="noprint">
                   <br />
