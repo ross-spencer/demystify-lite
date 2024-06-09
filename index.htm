@@ -25,8 +25,11 @@
          <meta name="description" content="File-format report static analysis tool, client-side, online"/>
          <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
          <meta name="rating" content="Utilities"/>
-         <link rel="stylesheet" href="https://pyscript.net/releases/2024.3.1/core.css"/>
-         <script type="module" src="https://pyscript.net/releases/2024.3.1/core.js">
+         <!-- w3c css -->
+         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+         <!-- pyscript -->
+         <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css"/>
+         <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js">
             // do not delete...
          </script>
          <!-- Custom imports -->
@@ -34,6 +37,22 @@
          <link rel="stylesheet" href="./noprint.css" />
          <!-- Favicon -->
          <link rel="icon" type="image/png" href="customize/favicon.ico" />
+         <!-- Siegfried Integration -->
+         <script src="sf/app.js" defer></script>
+         <script src="sf/wasm_exec.js"></script>
+         <script>
+            const go = new window.Go();
+
+            WebAssembly.instantiateStreaming(
+                fetch("sf/sf.wasm"),
+                go.importObject
+            ).then(
+                (obj) => {
+                    go.run(obj.instance);
+                }
+            );
+         </script>
+         <!-- Siegfried Integration -->
       </head>
       <body>
          <py-config src="./pyscript.toml"></py-config>
@@ -91,42 +110,108 @@
                   </p>
                </div>
             </section>
-            <section class="noprint">
-               <hr/>
+            <section id="toggle" class="noprint">
                <div>
-                  <p>Open a DROID or Siegfried report in the browser to analyze it.</p>
-               </div>
-               <div class="deny-list" id="deny_list">
-                  use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
-                  <br/><br/>
+                  <div style="font-weight: bold; margin-bottom: 10px;">use an existing report</div>
+                  <label class="switch" alt="use siegfried or perform a static analysis">
+                  <input id="app-toggle" type="checkbox">
+                  <span class="slider round"></span>
+                  </label>
                </div>
             </section>
-            <section class="noprint" id="denylistTextBox" style="display: none;">
-               <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
-            </section>
-            <section class="noprint">
-               <div class="drag" id="drop_zone">
-                  <div id="file_select">
-                     <label class="custom-file-uploadx">
+            <section id="app-state">
+               <section class="noprint" id="use-siegfried">
+                  <div>
+                  <hr/>
+                  select your options for Siegfried...
+                  <div>
+                     <p>
+                        <select name="format" id="format" hidden>
+                           <option value="yaml">YAML</option>
+                        </select>
+                        Hash (hash):
+                        <select name="hash" id="hash">
+                           <option value="md5">md5</option>
+                           <option value="sha1">sha1</option>
+                           <option value="sha256">sha256</option>
+                           <option value="sha512">sha512</option>
+                           <option value="crc">crc</option>
+                           <option value="none">none</option>
+                        </select>
+                        <br>
+                        Scan within archive files:&nbsp;<input type="radio" name="z" value="true"> true &nbsp;<input type="radio" name="z" value="false" checked> false
+                     </p>
+                     <p>
+                     </p>
+                     <div id="sf_select">
+                        <label class="custom-file-upload">
+                        <input  class="analysis_button" type="button" id="butOpen" />
+                        Siegfried: Open file
+                        </label>&nbsp
+                        <label class="custom-file-upload">
+                        <input class="analysis_button" type="button" id="butDirectory" />
+                        Siegfried: Identify directory
+                        </label>
+                     </div>
+                     <!-- LOADER AND READY BUTTONS -->
+                     <div class="loader noprint" id="loader"></div>
+                     <div class="noprint" id="ready">
+                        <div class="w3-panel w3-light-grey w3-border" id="ready">
+                            <h5>Ready to scan...</h5>
+                            <p>Select values for Siegfried and then select a file or directory to create a report against.</p>
+                        </div>
+                    </div>
+                     <div id="sf-results" hidden>
+                     </div>
+                  </div>
+               </section>
+               <section id="static-analysis">
+                  <div id="report_select">
+                     <label class="custom-file-upload">
                      <input type="file" name="files[]" id="files" />
-                     Select a file-format-report from your computer
+                     Demystify: Select existing report
                      </label>
                   </div>
-               </div>
-            </section>
-            <section class="noprint">
-               <div class="noprint">
-                  <br />
-                  <br />
-                  <div id="filename"></div>
-                  <div id="filesize"></div>
-                  <div id="filetype"></div>
-                  <div id="filedate"></div>
-                  <br/>
-               </div>
-            </section>
-            <section>
-               <div id="results"></div>
+                  </button>
+               </section>
+               <section id="run-analysis">
+                  <!-- RUN DEMYSTIFY AND SHOW RESULTS -->
+                  <section class="noprint">
+                     <hr/>
+                     <div>
+                        <p>Analyze the results.</p>
+                     </div>
+                     <div class="deny-list" id="deny_list">
+                        use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
+                        <br/><br/>
+                     </div>
+                  </section>
+                  <section class="noprint" id="denylistTextBox" style="display: none;">
+                     <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
+                  </section>
+                  <section class="noprint">
+                     <div class="drag" id="drop_zone">
+                        <label class="custom-file-upload">
+                        <input class="analysis_button" type="button" id="analysis_button" />
+                        Analyse Demystify Results
+                        </label>
+                     </div>
+                  </section>
+                  <section class="noprint">
+                     <div class="noprint">
+                        <br />
+                        <br />
+                        <div id="filename"></div>
+                        <div id="filesize"></div>
+                        <div id="filetype"></div>
+                        <div id="filedate"></div>
+                        <br/>
+                     </div>
+                  </section>
+                  <section>
+                     <div id="results"></div>
+                  </section>
+               </section>
             </section>
          </main>
       </body>

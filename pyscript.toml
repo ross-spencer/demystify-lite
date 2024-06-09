@@ -5,3 +5,4 @@ packages = [
 
 [files]
 "./default-denylist/denylist.cfg" = "default_denylist.cfg"
+"./sf/sf.wasm" = "sf.wasm"
