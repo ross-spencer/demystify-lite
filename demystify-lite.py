@@ -5,14 +5,18 @@ page with a File handle to a file-format analysis report on their own
 file-system. The file is processed and the results returned to the page.
 """
 
+import binascii
 import json
 import tempfile
 
-from js import document, console, window
+from js import document, console, window, alert
 from pyodide.ffi import create_proxy
 
 from demystify.demystify import analysis_from_csv_lite
 from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
+
+
+from pyscript import when, display
 
 
 def clear_data():
@@ -43,18 +47,28 @@ async def deny_list(event):
             document.getElementById("denylist").value = deny_list_json
 
 
-async def file_select(event):
-    """Handle file select and follow-on actions from HTML/Pyscript."""
+@when("click", "#analysis_button")
+async def click_handler(event):
+    """
+    Event handlers get an event object representing the activity that raised
+    them.
 
+    https://github.com/exponential-decay
+    """
+    await file_select()
+
+
+async def report_select(event):
+    """Run analysis from an existing report."""
+
+    console.log("using existing report...")
     clear_data()
     event.stopPropagation()
     event.preventDefault()
-
     deny_list = "{}"
     use_deny_list = document.getElementById("use_deny_list").checked
     if use_deny_list:
         deny_list = document.getElementById("denylist").value
-
     try:
         deny_list = json.loads(deny_list)
     except json.decoder.JSONDecodeError as err:
@@ -67,9 +81,7 @@ async def file_select(event):
             "<br/>"
         )
         return
-
     files = event.target.files
-
     for file in files:
         document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
         document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
@@ -81,7 +93,6 @@ async def file_select(event):
             "filedate"
         ).innerHTML = f"<b>File date:</b> {file.lastModified}"
         content = await file.text()
-
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
             analysis = analysis_from_csv_lite(
@@ -101,14 +112,68 @@ async def file_select(event):
                     "developer tools, then select the console tab to view"
                     "additional debug output."
                 )
-
             document.getElementById("results").innerHTML = out
+
+
+async def file_select():
+    """Handle file select and follow-on actions from HTML/Pyscript."""
+
+    console.log("using sf wasm...")
+    clear_data()
+    deny_list = "{}"
+    use_deny_list = document.getElementById("use_deny_list").checked
+    if use_deny_list:
+        deny_list = document.getElementById("denylist").value
+    try:
+        deny_list = json.loads(deny_list)
+    except json.decoder.JSONDecodeError as err:
+        console.log(f"denylist error: {err}")
+        document.getElementById("results").innerHTML = (
+            "<br/>"
+            "<h1>Processing Error</h1>"
+            "deny list JSON is invalid, please check, e.g. via "
+            "<a href='https://jsonlint.com/' target='_blank', rel='noopener'>JSONLint.com</a>"
+            "<br/>"
+        )
+        return
+    results = document.getElementById("sf-results")
+    content = results.value
+    content = content.strip()
+    bytes = content[:25]
+    bytes = binascii.hexlify(bytes.encode())
+    expected_bytes = b"2d2d2d0a7369656766726965642020203a"
+    console.log(f"{expected_bytes in bytes}")
+    console.log(f"received {bytes}")
+    console.log(f"expected {expected_bytes}")
+    if not content:
+        console.log("you need to select a file or directory for analysis...")
+        return
+    with tempfile.NamedTemporaryFile("w", encoding="UTF8", delete=False) as temp_file:
+        temp_file.write(content)
+    with open(temp_file.name, "r", encoding="utf8") as test:
+        console.log(test.read())
+    analysis = analysis_from_csv_lite(
+        temp_file.name,
+        label="Siegfried Browser-Based Analysis (WASM)",
+        denylist=deny_list,
+    )
+    out = ""
+    try:
+        out = FormatAnalysisHTMLOutput(analysis.analysis_results).printHTMLResults()
+    except AttributeError:
+        out = (
+            f"<b>{analysis}</b>"
+            "Error processing content. Press F12 on your keyboard to open"
+            "developer tools, then select the console tab to view"
+            "additional debug output."
+        )
+    document.getElementById("results").innerHTML = out
 
 
 def setup_button():
     """Create a Python proxy for the callback function."""
-    file_select_proxy = create_proxy(file_select)
-    document.querySelector("#file_select input[type='file']").addEventListener(
+    file_select_proxy = create_proxy(report_select)
+    document.querySelector("#report_select input[type='file']").addEventListener(
         "change",
         file_select_proxy,
         False,
