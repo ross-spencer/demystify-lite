@@ -18,9 +18,19 @@ function getArgs() {
     return args;
 }
 
+function downloadResults() {
+    let res = document.getElementById("sf-results").value.trim();
+    var base64doc = btoa(unescape(encodeURIComponent(res))),
+        a = document.createElement('a'),
+        e = new MouseEvent('click');
+    a.download = 'results.yaml';
+    a.href = 'data:text/html;base64,' + base64doc;
+    a.dispatchEvent(e);
+}
+
+
 function toggleInit() {
     let sf = true;
-
     toggleHeight = document.getElementById("static-analysis").offsetHeight;
     document.getElementById("static-analysis").style.height = 0;
     document.getElementById("static-analysis").style.visibility = "hidden";
@@ -31,7 +41,7 @@ function toggleInit() {
             document.getElementById("static-analysis").style.height = toggleHeight + "px";
             document.getElementById("static-analysis").style.visibility = "visible";
             toggleHeight = document.getElementById("use-siegfried").offsetHeight;
-            document.getElementById("use-siegfried").style.height="0";
+            document.getElementById("use-siegfried").style.height = "0";
             sf = false;
             return;
         }
@@ -42,7 +52,7 @@ function toggleInit() {
         document.getElementById("use-siegfried").style.height = toggleHeight + "px";
         document.getElementById("use-siegfried").style.visibility = "visible";
         toggleHeight = document.getElementById("static-analysis").offsetHeight;
-        document.getElementById("static-analysis").style.height="0";
+        document.getElementById("static-analysis").style.height = "0";
         sf = true;
         return;
     });
@@ -61,8 +71,7 @@ window.onload = () => {
                     console.log("file selection error: " + err);
                 });
             };
-        }
-        ).catch((err) => {
+        }).catch((err) => {
             console.log("file selection error: " + err);
         });
     });
@@ -85,9 +94,15 @@ window.onload = () => {
             }).catch((err) => {
                 console.log("directory selection error: " + err);
             });
-        }
-        ).catch((err) => {
+        }).catch((err) => {
             console.log("directory selection error: " + err);
         });
+    });
+    document.getElementById('butDownload').addEventListener('click', (event) => {
+        try {
+            downloadResults()
+        } catch (err) {
+            console.log("download siegfrried error (ensure siegfried has been run): " + err)
+        }
     });
 }
