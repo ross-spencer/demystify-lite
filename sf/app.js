@@ -62,11 +62,21 @@ window.onload = () => {
     toggleInit();
     document.getElementById('butOpen').addEventListener('click', () => {
         window.showOpenFilePicker().then(handles => {
+            complete = '<div class="w3-panel w3-pale-green w3-border"><h4>Complete!</h4><p>Siegfried has finished scanning, \'run Demystify\' to show the results.</p></div>';
             for (const idx in handles) {
                 const args = getArgs();
                 args.unshift(handles[idx]);
+                document.getElementById('ready').style.visibility = "hidden";
+                document.getElementById('ready').style.height = "0px";
+                document.getElementById('loader').style.visibility = "visible";
+                document.getElementById('loader').style.height = "auto";
                 identify.apply(null, args).then(result => {
                     document.getElementById('sf-results').value = result;
+                    document.getElementById('loader').style.visibility = "hidden";
+                    document.getElementById('loader').style.height = "0px";
+                    document.getElementById('ready').innerHTML = complete;
+                    document.getElementById('ready').style.visibility = "visible";
+                    document.getElementById('ready').style.height = "auto";
                 }).catch((err) => {
                     console.log("file selection error: " + err);
                 });
