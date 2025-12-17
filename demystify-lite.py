@@ -13,7 +13,7 @@ from js import document, console, window, alert
 from pyodide.ffi import create_proxy
 
 from demystify.demystify import analysis_from_csv_lite
-from demystify.libs.outputhandlers.htmloutputclass import FormatAnalysisHTMLOutput
+from demystify.libs.outputhandlers import noclasshtml as nc
 
 
 from pyscript import when, display
@@ -86,12 +86,12 @@ async def report_select(event):
         document.getElementById("filename").innerHTML = f"<b>File Name:</b> {file.name}"
         document.getElementById("filesize").innerHTML = f"<b>File Size:</b> {file.size}"
         if file.type:
-            document.getElementById(
-                "filetype"
-            ).innerHTML = f"<b>File Type:</b> {file.type}"
-        document.getElementById(
-            "filedate"
-        ).innerHTML = f"<b>File date:</b> {file.lastModified}"
+            document.getElementById("filetype").innerHTML = (
+                f"<b>File Type:</b> {file.type}"
+            )
+        document.getElementById("filedate").innerHTML = (
+            f"<b>File date:</b> {file.lastModified}"
+        )
         content = await file.text()
         with tempfile.NamedTemporaryFile("w", encoding="UTF8") as temp_file:
             temp_file.write(content)
@@ -102,9 +102,7 @@ async def report_select(event):
             )
             out = ""
             try:
-                out = FormatAnalysisHTMLOutput(
-                    analysis.analysis_results
-                ).printHTMLResults()
+                out = nc.html(analysis.analysis_results)
             except AttributeError:
                 out = (
                     f"<b>{analysis}</b>"
@@ -159,7 +157,7 @@ async def file_select():
     )
     out = ""
     try:
-        out = FormatAnalysisHTMLOutput(analysis.analysis_results).printHTMLResults()
+        out = nc.html(analysis.analysis_results)
     except AttributeError:
         out = (
             f"<b>{analysis}</b>"

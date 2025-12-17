@@ -26,15 +26,32 @@
       <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats" >
       <meta name="rating" content="Utilities" >
       <!-- pyscript -->
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
-      <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js">
+      <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
+      <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js">
          // do not delete...
       </script>
       <!-- Custom imports -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" type="text/css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.lime.min.css">
-      <link rel="stylesheet" href="./noprint.css" >
+      <!--<link rel="stylesheet" href="./noprint.css" >-->
       <style>
+         @media print
+         {
+         .noprint {display:none;}
+         details > summary {
+         border: none  !important;
+         }
+         details::details-content {
+         border: none  !important;
+         content-visibility: visible !important;
+         height: auto !important;
+         font-size: smaller;
+         }
+         }
+         main {
+         font-weight: 400;
+         font-size: 18px;
+         }
          img.logo {
          height: 50px;
          width:  50px;
@@ -82,16 +99,21 @@
          .title-highlighted {
          color: #99c801;
          }
-        .loader {
-            visibility: hidden;
-            height: 0px;
-            margin-top: 20px;
-        }
-        @keyframes l13{
-            100%{transform: rotate(1turn)
-            }
-        }
-
+         .loader {
+         visibility: hidden;
+         height: 0px;
+         margin-top: 20px;
+         }
+         @keyframes l13{
+         100%{transform: rotate(1turn)
+         }
+         }
+         progress {
+         width: 100%;
+         }
+         .toggle-dark {
+         float: right;
+         }
       </style>
       <!-- Favicon -->
       <link rel="icon" type="image/png" href="customize/favicon.ico" >
@@ -144,7 +166,6 @@
                   <img id="img-header-light" class="header" src="customize/header-dark.png" alt="demystify dark header" >
                   <img id="img-header-dark" style="visibility: hidden; height: 0px;" class="header" src="customize/header-light.png" alt="demystify lite header" >
                   <br>
-                  <br>
                </div>
             </div>
             <div>
@@ -152,37 +173,37 @@
                   <div class='column half-column'>
                      <div>
                         <img class="logo" src="demystify.ico" alt="demystify logo"><span class="logo">||</span>
-                        <br><br>
+                        <br>
                      </div>
                   </div>
                   <div class='column'>
                      <hgroup>
-                           <h1 class="title">Demystify Lite</h1>
-                           <h2 style="font-size: smaller" class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
+                        <h1 class="title">Demystify Lite</h1>
+                        <h2 style="font-size: smaller" class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
                      </hgroup>
                   </div>
+                  <!-- contrast: START -->
+                  <div class="noprint toggle-dark">
+                     <p>
+                        <button data-tooltip="toggle dark theme off and on" class="outline" onclick="setDark();">
+                     <div style="width:26px;height:32px;">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" fill="currentColor" class="icon-theme-toggle theme-toggle moon">
+                     <clipPath id="theme-toggle-cutout">
+                     <path d="M0-11h25a1 1 0 0017 13v30H0Z"></path>
+                     </clipPath>
+                     <g clip-path="url(#theme-toggle-cutout)">
+                     <circle cx="16" cy="16" r="8.4"></circle>
+                     <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"></path>
+                     </g>
+                     </svg>
+                     </div>
+                     </button>
+                     </p>
+                  </div>
+                  <!-- contrast: END -->
                </div>
             </div>
          </section>
-         <!-- contrast: START -->
-         <div class="noprint">
-            <p>
-            <button data-tooltip="toggle dark theme off and on" class="outline" onclick="setDark();">
-            <div style="width:26px;height:32px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" fill="currentColor" class="icon-theme-toggle theme-toggle moon">
-            <clipPath id="theme-toggle-cutout">
-            <path d="M0-11h25a1 1 0 0017 13v30H0Z"></path>
-            </clipPath>
-            <g clip-path="url(#theme-toggle-cutout)">
-            <circle cx="16" cy="16" r="8.4"></circle>
-            <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"></path>
-            </g>
-            </svg>
-            </div>
-            </button>
-            </p>
-         </div>
-         <!-- contrast: END -->
          <section class="noprint content">
             <div >
                <p>Demystify is a static-analysis tool for digital preservation.</p>
@@ -199,7 +220,7 @@
                </p>
                <p>
                   More information:
-                </p>
+               </p>
                <ul>
                   <li>Demystify full-fat on <a href="https://github.com/exponential-decay/demystify" target="_blank" rel="noopener">Github</a>.</li>
                   <li>Understanding file-format identification reports on <a href="https://journal.code4lib.org/articles/16351" target="_blank" rel="noopener">Code4Lib</a>.</li>
@@ -207,7 +228,6 @@
                   <li>DROID at <a href="https://www.nationalarchives.gov.uk/information-management/manage-information/preserving-digital-records/droid/" target="_blank" rel="noopener">The National Archives, UK</a>.</li>
                   <li>Demystify Lite repository and <a href="https://github.com/ross-spencer/demystify-lite/issues" target="_blank" rel="noopener">issues</a>.</li>
                </ul>
-
             </div>
             <br>
             <hr>
@@ -278,15 +298,17 @@
                   <h4>Run Siegfried:</h4>
                   <div id="sf_select" role="group">
                      <p>
-                     <button data-tooltip="select an individual file to identify with Siegfried" class='outline primary' id="butOpen">Siegfried: Open file</button>
-                     <button data-tooltip="select a directory of files to identify with Siegfried" class='outline primary' id="butDirectory">Siegfried: Identify directory</button>
-                     <button data-tooltip="download Siegfried results in YAML" class='outline primary' id="butDownload">Siegfried: Download results</button>
+                        <button data-tooltip="select an individual file to identify with Siegfried" class='outline primary' id="butOpen">Siegfried: Open file</button>
+                        &nbsp;
+                        <button data-tooltip="select a directory of files to identify with Siegfried" class='outline primary' id="butDirectory">Siegfried: Identify directory</button>
+                        &nbsp;
+                        <button data-tooltip="download Siegfried results in YAML" class='outline primary' id="butDownload">Siegfried: Download results</button>
                      </p>
                   </div>
                   <!-- LOADER AND READY BUTTONS -->
                   <div class="noprint loader" id="loader">
-                    <p><b>processing...</b></p>
-                    <progress />
+                     <p><b>processing...</b></p>
+                     <progress />
                   </div>
                   <div class="noprint">
                      <article id="ready">

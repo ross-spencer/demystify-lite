@@ -1,8 +1,9 @@
 packages = [
-    "demystify-digipres",
+    "./demystify_digipres-3.0.0rc3-py3-none-any.whl",
     "sqlite3",
 ]
 
 [files]
 "./default-denylist/denylist.cfg" = "default_denylist.cfg"
 "./sf/sf.wasm" = "sf.wasm"
+"./demystify_digipres-3.0.0rc3-py3-none-any.whl" = "demystify_digipres-3.0.0rc3-py3-none-any.whl"
