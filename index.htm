@@ -12,124 +12,248 @@
    Ross
 
    -->
-   <!DOCTYPE html>
-   <html lang="en">
-      <head>
-         <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1">
-         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-         <!-- Site metadata -->
-         <title>Demystify online! #digipres</title>
-         <meta name="title" content="Demystify online - Demystify Lite - Digital Preservation" />
-         <meta name="author" content="Ross Spencer"/>
-         <meta name="description" content="File-format report static analysis tool, client-side, online"/>
-         <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats"/>
-         <meta name="rating" content="Utilities"/>
-         <!-- w3c css -->
-         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-         <!-- pyscript -->
-         <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css"/>
-         <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js">
-            // do not delete...
-         </script>
-         <!-- Custom imports -->
-         <link rel="stylesheet" href="./demystify.css">
-         <link rel="stylesheet" href="./noprint.css" />
-         <!-- Favicon -->
-         <link rel="icon" type="image/png" href="customize/favicon.ico" />
-         <!-- Siegfried Integration -->
-         <script src="sf/app.js" defer></script>
-         <script src="sf/wasm_exec.js"></script>
-         <script>
-            const go = new window.Go();
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <!-- Site metadata -->
+      <title>Demystify online! #digipres</title>
+      <meta name="title" content="Demystify online - Demystify Lite - Digital Preservation" >
+      <meta name="author" content="Ross Spencer" >
+      <meta name="description" content="File-format report static analysis tool, client-side, online" >
+      <meta name="keywords" content="Digital Preservation, Pyscript, Demystify, File-Formats" >
+      <meta name="rating" content="Utilities" >
+      <!-- pyscript -->
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js">
+         // do not delete...
+      </script>
+      <!-- Custom imports -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" type="text/css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.lime.min.css">
+      <link rel="stylesheet" href="./noprint.css" >
+      <style>
+         img.logo {
+         height: 50px;
+         width:  50px;
+         text-align: left;
+         vertical-align: middle;
+         }
+         .row {
+         margin-top: 10px;
+         display: flex;
+         flex-direction: row;
+         flex-wrap: wrap;
+         width: 100%;
+         }
+         .column {
+         display: flex;
+         flex-direction: column;
+         flex-basis: 100%;
+         flex: 1;
+         }
+         .half-column {
+         margin-top: -5px;
+         font-size:  3rem;
+         display: flex;
+         flex-direction: column;
+         flex-basis: 100%;
+         flex: .14;
+         }
+         div.py-error {
+         display: none;
+         }
+         span.logo {
+         color: #99c801;
+         font-weight: bold;
+         margin-left: 5px;
+         }
+         .callout-info {
+         background-color: var(--pico-form-element-background); /* A light background color */
+         border-left: 5px solid var(--pico-primary); /* A left border using the primary color */
+         }
+         .callout-results {
+         background-color: var(--pico-form-element-background); /* A light background color */
+         border-left: 5px solid var(--pico-primary); /* A left border using the primary color */
+         margin-left: 6px;
+         }
+         .title-highlighted {
+         color: #99c801;
+         }
+        .loader {
+            visibility: hidden;
+            height: 0px;
+            margin-top: 20px;
+        }
+        @keyframes l13{
+            100%{transform: rotate(1turn)
+            }
+        }
 
-            WebAssembly.instantiateStreaming(
-                fetch("sf/sf.wasm"),
-                go.importObject
-            ).then(
-                (obj) => {
-                    go.run(obj.instance);
-                }
-            );
-         </script>
-         <!-- Siegfried Integration -->
-      </head>
-      <body>
-         <py-config src="./pyscript.toml"></py-config>
-         <py-script src="./demystify-lite.py"></py-script>
-         <main>
-            <section class="noprint">
-               <div class="row">
-                  <div>
-                     <img class="header" src="customize/header.png" alt="demystify-lite header"/>
-                     <br/>
-                     <br/>
-                  </div>
-               </div>
+      </style>
+      <!-- Favicon -->
+      <link rel="icon" type="image/png" href="customize/favicon.ico" >
+      <!-- Siegfried Integration -->
+      <script src="sf/app.js" defer></script>
+      <script src="sf/wasm_exec.js"></script>
+      <script>
+         const go = new window.Go();
+
+         WebAssembly.instantiateStreaming(
+             fetch("sf/sf.wasm"),
+             go.importObject
+         ).then(
+             (obj) => {
+                 go.run(obj.instance);
+             }
+         );
+      </script>
+      <script>
+         function setDark() {
+             document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light')
+
+             if (document.getElementById("img-header-dark").style.visibility == "visible") {
+                     document.getElementById("img-header-dark").style.visibility = "hidden";
+                     document.getElementById("img-header-dark").style.height = 0;
+                     document.getElementById("img-header-light").style.visibility = "visible";
+                     document.getElementById("img-header-light").style.height = "auto";
+
+             }
+             else
+             {
+                     document.getElementById("img-header-light").style.visibility = "hidden";
+                     document.getElementById("img-header-light").style.height = 0;
+                     document.getElementById("img-header-dark").style.visibility = "visible";
+                     document.getElementById("img-header-dark").style.height = "auto";
+             }
+
+         }
+
+      </script>
+      <!-- Siegfried Integration -->
+   </head>
+   <body>
+      <py-config src="./pyscript.toml"></py-config>
+      <py-script src="./demystify-lite.py"></py-script>
+      <main class='container' style='width: 1000px;'>
+         <section class="noprint">
+            <div class="row">
                <div>
-                  <div class='row'>
-                     <div class='column half-column'>
-                        <div>
-                           <img class="logo" src="demystify.ico" alt="demystify logo"><span class="logo">||</span>
-                        </div>
+                  <img id="img-header-light" class="header" src="customize/header-dark.png" alt="demystify dark header" >
+                  <img id="img-header-dark" style="visibility: hidden; height: 0px;" class="header" src="customize/header-light.png" alt="demystify lite header" >
+                  <br>
+                  <br>
+               </div>
+            </div>
+            <div>
+               <div class='row'>
+                  <div class='column half-column'>
+                     <div>
+                        <img class="logo" src="demystify.ico" alt="demystify logo"><span class="logo">||</span>
+                        <br><br>
                      </div>
-                     <div class='column'>
-                        <div>
+                  </div>
+                  <div class='column'>
+                     <hgroup>
                            <h1 class="title">Demystify Lite</h1>
-                        </div>
-                        <div>
-                           <h2 class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
-                        </div>
-                     </div>
+                           <h2 style="font-size: smaller" class="subtitle">An analysis tool for file-format reports for digital preservation.</h2>
+                     </hgroup>
                   </div>
                </div>
-            </section>
-            <section class="noprint content">
-               <div >
-                  <p>Demystify is a static-analysis tool for digital preservation.</p>
-                  <p>
-                     You can take a CSV report from DROID, or Siegfried YAML, run
-                     it through this tool, and understand your collection better.
-                  </p>
-                  <p>
-                     Demystify-lite processes everything on client-side, data isn't
-                     shared with a server and so it can be safely used on data without
-                     revealing your secrets to the world. This implementation is
-                     enabled by
-                     <a href="https://pyscript.net/" target="_blank" rel="noopener">pyscript</a>.
-                  </p>
-                  <p>
-                     More information:
-                  <ul>
-                     <li>Demystify full-fat on <a href="https://github.com/exponential-decay/demystify" target="_blank" rel="noopener">Github</a>.</li>
-                     <li>Understanding file-format identification reports on <a href="https://journal.code4lib.org/articles/16351" target="_blank" rel="noopener">Code4Lib</a>.</li>
-                     <li>Siegfried on <a href="https://github.com/richardlehane/siegfried" target="_blank" rel="noopener">GitHub</a>.</li>
-                     <li>DROID at <a href="https://www.nationalarchives.gov.uk/information-management/manage-information/preserving-digital-records/droid/" target="_blank" rel="noopener">The National Archives, UK</a>.</li>
-                     <li>Demystify Lite repository and <a href="https://github.com/ross-spencer/demystify-lite/issues" target="_blank" rel="noopener">issues</a>.</li>
-                  </ul>
-                  </p>
-               </div>
-            </section>
-            <section id="toggle" class="noprint">
-               <div>
-                  <div style="font-weight: bold; margin-bottom: 10px;">use an existing report</div>
-                  <label class="switch" alt="use siegfried or perform a static analysis">
-                  <input id="app-toggle" type="checkbox">
-                  <span class="slider round"></span>
+            </div>
+         </section>
+         <!-- contrast: START -->
+         <div class="noprint">
+            <p>
+            <button data-tooltip="toggle dark theme off and on" class="outline" onclick="setDark();">
+            <div style="width:26px;height:32px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" fill="currentColor" class="icon-theme-toggle theme-toggle moon">
+            <clipPath id="theme-toggle-cutout">
+            <path d="M0-11h25a1 1 0 0017 13v30H0Z"></path>
+            </clipPath>
+            <g clip-path="url(#theme-toggle-cutout)">
+            <circle cx="16" cy="16" r="8.4"></circle>
+            <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"></path>
+            </g>
+            </svg>
+            </div>
+            </button>
+            </p>
+         </div>
+         <!-- contrast: END -->
+         <section class="noprint content">
+            <div >
+               <p>Demystify is a static-analysis tool for digital preservation.</p>
+               <p>
+                  You can take a CSV report from DROID, or Siegfried YAML, run
+                  it through this tool, and understand your collection better.
+               </p>
+               <p>
+                  Demystify-lite processes everything on client-side, data isn't
+                  shared with a server and so it can be safely used on data without
+                  revealing your secrets to the world. This implementation is
+                  enabled by
+                  <a href="https://pyscript.net/" target="_blank" rel="noopener">pyscript</a>.
+               </p>
+               <p>
+                  More information:
+                </p>
+               <ul>
+                  <li>Demystify full-fat on <a href="https://github.com/exponential-decay/demystify" target="_blank" rel="noopener">Github</a>.</li>
+                  <li>Understanding file-format identification reports on <a href="https://journal.code4lib.org/articles/16351" target="_blank" rel="noopener">Code4Lib</a>.</li>
+                  <li>Siegfried on <a href="https://github.com/richardlehane/siegfried" target="_blank" rel="noopener">GitHub</a>.</li>
+                  <li>DROID at <a href="https://www.nationalarchives.gov.uk/information-management/manage-information/preserving-digital-records/droid/" target="_blank" rel="noopener">The National Archives, UK</a>.</li>
+                  <li>Demystify Lite repository and <a href="https://github.com/ross-spencer/demystify-lite/issues" target="_blank" rel="noopener">issues</a>.</li>
+               </ul>
+
+            </div>
+            <br>
+            <hr>
+         </section>
+         <section id="toggle" class="noprint">
+            <div>
+               <fieldset>
+                  <legend>
+                     <h3>use an existing report...</h3>
+                  </legend>
+                  <label>
+                  <input data-tooltip="use siegfried or perform a static analysis" type="checkbox" id="app-toggle" >
+                  supports DROID CSV and Siegfried YAML
                   </label>
-               </div>
-            </section>
-            <section id="app-state">
-               <section class="noprint" id="use-siegfried">
-                  <div>
-                  <hr/>
-                  select your options for Siegfried...
-                  <div>
+               </fieldset>
+            </div>
+         </section>
+         <section id="app-state">
+            <section class="noprint" id="use-siegfried">
+               <hr>
+               <h3>or select your options to run Siegfried in the browser...</h3>
+               <div>
+                  <article class="callout-info">
                      <p>
-                        <select name="format" id="format" hidden>
-                           <option value="yaml">YAML</option>
-                        </select>
-                        Hash (hash):
+                        <span class="title-highlighted"><b><u>Siegfried: WASM</u></b><br><br></span>
+                        <a href="https://developer.mozilla.org/en-US/docs/WebAssembly" target="_blank">
+                        WebAssembly (WASM)
+                        </a>
+                        is a technology that enables you to run low-level
+                        code in the safety of your own browser, protecting your computer and
+                        your data. Richard Lehane talks more about the WASM implementation
+                        of Siegfried on
+                        <a href="https://www.linkedin.com/pulse/siegfried-front-end-richard-lehane-dlvaf/" target="_blank">
+                        his blog on LinkedIn
+                        </a>.
+                     </p>
+                  </article>
+                  <div>
+                     <br>
+                     <!-- hidden element -->
+                     <select name="format" id="format" hidden>
+                        <option value="yaml">YAML</option>
+                     </select>
+                     <!-- hidden element-->
+                     <h4>Hash (hash)</h4>
+                     <p>
                         <select name="hash" id="hash">
                            <option value="md5">md5</option>
                            <option value="sha1">sha1</option>
@@ -138,85 +262,90 @@
                            <option value="crc">crc</option>
                            <option value="none">none</option>
                         </select>
-                        <br>
-                        Scan within archive files:&nbsp;<input type="radio" name="z" value="true"> true &nbsp;<input type="radio" name="z" value="false" checked> false
                      </p>
+                     <br>
+                     <fieldset>
+                        <legend>
+                           <h4>Scan within archive files</h4>
+                        </legend>
+                        <input type="radio" id="z" name="z" value="false" checked >
+                        <label For="z">false</label>
+                        <input type="radio" id="z" name="z" value="true" >
+                        <label For="z">true</label>
+                     </fieldset>
+                     <br>
+                  </div>
+                  <h4>Run Siegfried:</h4>
+                  <div id="sf_select" role="group">
                      <p>
+                     <button data-tooltip="select an individual file to identify with Siegfried" class='outline primary' id="butOpen">Siegfried: Open file</button>
+                     <button data-tooltip="select a directory of files to identify with Siegfried" class='outline primary' id="butDirectory">Siegfried: Identify directory</button>
+                     <button data-tooltip="download Siegfried results in YAML" class='outline primary' id="butDownload">Siegfried: Download results</button>
                      </p>
-                     <div id="sf_select">
-                        <label class="custom-file-upload">
-                        <input  class="analysis_button" type="button" id="butOpen" />
-                        Siegfried: Open file
-                        </label>&nbsp
-                        <label class="custom-file-upload">
-                        <input class="analysis_button" type="button" id="butDirectory" />
-                        Siegfried: Identify directory
-                        </label>&nbsp
-                        <label class="custom-file-upload">
-                        <input class="analysis_button" type="button" id="butDownload" />
-                        Siegfried: Download results
-                        </label>
-                     </div>
-                     <!-- LOADER AND READY BUTTONS -->
-                     <div class="loader noprint" id="loader"></div>
-                     <div class="noprint" id="ready">
-                        <div class="w3-panel w3-light-grey w3-border" id="ready">
-                            <h5>Ready to scan...</h5>
-                            <p>Select values for Siegfried and then select a file or directory to create a report against.</p>
+                  </div>
+                  <!-- LOADER AND READY BUTTONS -->
+                  <div class="noprint loader" id="loader">
+                    <p><b>processing...</b></p>
+                    <progress />
+                  </div>
+                  <div class="noprint">
+                     <article id="ready">
+                        <div>
+                           <h5>Ready to scan...</h5>
+                           <p>Select values for Siegfried and then select a file or directory to create a report against.</p>
                         </div>
-                    </div>
-                     <div id="sf-results" hidden>
-                     </div>
+                     </article>
                   </div>
-               </section>
-               <section id="static-analysis">
-                  <div id="report_select">
+                  <div  id="sf-results" hidden>
+                  </div>
+               </div>
+            </section>
+            <section id="static-analysis">
+               <div id="report_select">
+                  <p>
                      <label class="custom-file-upload">
-                     <input type="file" name="files[]" id="files" />
-                     Demystify: Select existing report
+                     Select existing report:
+                     <input type="file" name="files[]" id="files" >
                      </label>
+                  </p>
+               </div>
+            </section>
+            <section id="run-analysis">
+               <!-- RUN DEMYSTIFY AND SHOW RESULTS -->
+               <section class="noprint">
+                  <hr>
+                  <div>
+                     <h3>Analyze the results</h3>
                   </div>
-                  </button>
+                  <div class="deny-list" id="deny_list" style="font-size: larger">
+                     <span title="use sensible denylist defaults to report on potentially non-archival objects"><i>use denylist</i></span>: <input class="use-denylist" type="checkbox" id="use_deny_list" >
+                     <br><br>
+                  </div>
                </section>
-               <section id="run-analysis">
-                  <!-- RUN DEMYSTIFY AND SHOW RESULTS -->
-                  <section class="noprint">
-                     <hr/>
-                     <div>
-                        <p>Analyze the results.</p>
-                     </div>
-                     <div class="deny-list" id="deny_list">
-                        use denylist: <input class="use-denylist" type="checkbox" id="use_deny_list" />
-                        <br/><br/>
-                     </div>
-                  </section>
-                  <section class="noprint" id="denylistTextBox" style="display: none;">
-                     <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
-                  </section>
-                  <section class="noprint">
-                     <div class="drag" id="drop_zone">
-                        <label class="custom-file-upload">
-                        <input class="analysis_button" type="button" id="analysis_button" />
-                        Analyse Demystify Results
-                        </label>
-                     </div>
-                  </section>
-                  <section class="noprint">
-                     <div class="noprint">
-                        <br />
-                        <br />
-                        <div id="filename"></div>
-                        <div id="filesize"></div>
-                        <div id="filetype"></div>
-                        <div id="filedate"></div>
-                        <br/>
-                     </div>
-                  </section>
-                  <section>
-                     <div id="results"></div>
-                  </section>
+               <section class="noprint" id="denylistTextBox" style="display: none;">
+                  <textarea class="denylist" id="denylist" cols="500" rows="10"></textarea>
+               </section>
+               <section class="noprint">
+                  <div class="drag" id="drop_zone">
+                     <button data-tooltip="organize results using Demystify's analysis" class='primary' id="analysis_button">Analyze results using Demystify</button>
+                  </div>
+               </section>
+               <section class="noprint">
+                  <div class="noprint">
+                     <br>
+                     <br>
+                     <div id="filename"></div>
+                     <div id="filesize"></div>
+                     <div id="filetype"></div>
+                     <div id="filedate"></div>
+                     <br>
+                  </div>
+               </section>
+               <section>
+                  <div id="results"></div>
                </section>
             </section>
-         </main>
-      </body>
-   </html>
+         </section>
+      </main>
+   </body>
+</html>

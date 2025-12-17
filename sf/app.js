@@ -62,7 +62,7 @@ window.onload = () => {
     toggleInit();
     document.getElementById('butOpen').addEventListener('click', () => {
         window.showOpenFilePicker().then(handles => {
-            complete = '<div class="w3-panel w3-pale-green w3-border"><h4>Complete!</h4><p>Siegfried has finished scanning, \'run Demystify\' to show the results.</p></div>';
+            complete = '<article class="callout-results"><h4>Scan complete!</h4><p>Siegfried has finished scanning, click "Analyze results using Demystify" to show the analysis.</p></article>';
             for (const idx in handles) {
                 const args = getArgs();
                 args.unshift(handles[idx]);
@@ -87,7 +87,7 @@ window.onload = () => {
     });
     document.getElementById('butDirectory').addEventListener('click', () => {
         window.showDirectoryPicker().then(handle => {
-            complete = '<div class="w3-panel w3-pale-green w3-border"><h4>Complete!</h4><p>Siegfried has finished scanning, \'run Demystify\' to show the results.</p></div>';
+            complete = '<article class="callout-results"><h4>Scan complete!</h4><p>Siegfried has finished scanning, click "Analyze results using Demystify" to show the analysis.</p></article>';
             const args = getArgs();
             args.unshift(handle);
             document.getElementById('ready').style.visibility = "hidden";
