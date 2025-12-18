@@ -91,6 +91,10 @@
          background-color: var(--pico-form-element-background); /* A light background color */
          border-left: 5px solid var(--pico-primary); /* A left border using the primary color */
          }
+         .callout-warn {
+         background-color: var(--pico-form-element-background); /* A light background color */
+         border-left: 5px solid #D93526; /* A left border using the primary color */
+         }
          .callout-results {
          background-color: var(--pico-form-element-background); /* A light background color */
          border-left: 5px solid var(--pico-primary); /* A left border using the primary color */
@@ -264,6 +268,18 @@
                         his blog on LinkedIn
                         </a>.
                      </p>
+                  </article>
+                    <details class="callout-warn">
+                    <summary role="button" class="outline contrast"><b>Browser compatibility</b></summary>
+                        <p style="padding-left: 15px;">
+                        One limitation of the WASM build of Siegfried is that it doesn’t work in Firefox and Safari because of differing levels of support for the HTML File Picker.
+                        <br><br>
+                        It should work in Chrome, Edge, Opera, and a handful of other browsers.
+                        <br><br>
+                        If you experience any difficulties, check out Mozilla’s resource on <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker#browser_compatibility" target="blank">browser compatibility</a>.
+                        <br><br>
+                        </p>
+                    </details>
                   </article>
                   <div>
                      <br>
